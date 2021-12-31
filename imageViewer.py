@@ -8,8 +8,8 @@ class ImageViewer(Frame):
 
     def __init__(self, master=None):
         # tao 1 frame
-        Frame.__init__(self, master=master, bg="gray", width=700, height=700)
-        # static attribute o day lol
+        Frame.__init__(self, master=master, bg="gray24", width=800, height=800)
+        # static attribute o day
         self.shown_image = None
         self.x = 0
         self.y = 0
@@ -21,7 +21,7 @@ class ImageViewer(Frame):
         self.rectangle_id = 0
         self.ratio = 0
         # định sẵn 1 canvas(ô vuông vùng để chỉnh sửa, ở giữa)
-        self.canvas = Canvas(self, bg="white", width=600, height=600)
+        self.canvas = Canvas(self, bg="white", width=780, height=780)
 
         self.canvas.place(relx=0.5, rely=0.5, anchor=CENTER)
 

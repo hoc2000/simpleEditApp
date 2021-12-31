@@ -6,7 +6,6 @@ from imageViewer import ImageViewer
 
 
 class Main(tk.Tk):
-
     def __init__(self):
         tk.Tk.__init__(self)
 #định các tham số còn rỗng
@@ -19,6 +18,7 @@ class Main(tk.Tk):
 
         self.iconbitmap('sample/seven.ico')
         self.title("Hoc_editor")
+        self.configure(bg='gray24')
 
 
 
@@ -34,5 +34,5 @@ class Main(tk.Tk):
         # separator1.pack(fill=tk.X, padx=20, pady=5)
         self.image_viewer.grid(column=1,row=0)
 
-root =Main()
+root = Main()
 root.mainloop()

@@ -9,7 +9,7 @@ import cv2.cv2 as cv2
 class EditBar(Frame):
 
     def __init__(self, master=None):
-        Frame.__init__(self, master=master,bg ="gray24", width=100, height=700)
+        Frame.__init__(self, master=master,bg ="gray24", width=100, height=800)
 
 
         self.new_button = Button(self, text="OPEN")
