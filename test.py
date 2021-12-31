@@ -95,7 +95,7 @@ img_smooth= cv2.GaussianBlur(image_invert,(21,21),sigmaX=0,sigmaY=0)
 
 
 final_image =dodge(greyscale(image),img_smooth)
-cv2.imshow("sketch",final_image)
+cv2.imshow("sketch",a4)
 cv2.waitKey()
 cv2.destroyAllWindows()
 
