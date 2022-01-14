@@ -30,10 +30,9 @@ class FilterFrame(Toplevel):
         self.HDR_button = Button(self, text="HDR")
         self.Summer_button = Button(self, text="Ấm áp")
         self.Winter_button = Button(self, text="Lạnh giá")
-
         self.apply_button = Button(self, text="Apply")
         self.cancel_button = Button(self, text="Cancel")
-
+        # BIND BUTTON
         self.negative_button.bind("<ButtonRelease>", self.negative_button_released)
         self.black_white_button.bind("<ButtonRelease>", self.black_white_released)
         self.sepia_button.bind("<ButtonRelease>", self.sepia_button_released)
@@ -44,7 +43,7 @@ class FilterFrame(Toplevel):
         self.bright_button.bind("<ButtonRelease>", self.bright_button_released)
         self.darken_button.bind("<ButtonRelease>", self.darken_button_released)
         self.sharpen_button.bind("<ButtonRelease>", self.sharpen_button_released)
-        self.oldtime_button.bind("<ButtonRelease>",self.oldtime_button_released)
+        self.oldtime_button.bind("<ButtonRelease>", self.oldtime_button_released)
         self.pencil1_button.bind("<ButtonRelease>", self.pencil_gray_button_released)
         self.pencil2_button.bind("<ButtonRelease>", self.pencil_colour_button_released)
         self.HDR_button.bind("<ButtonRelease>", self.HDR_button_released)
@@ -53,7 +52,7 @@ class FilterFrame(Toplevel):
 
         self.apply_button.bind("<ButtonRelease>", self.apply_button_released)
         self.cancel_button.bind("<ButtonRelease>", self.cancel_button_released)
-
+        # GUI VIEW
         self.negative_button.grid(column=0, row=0, sticky='ew')
         self.black_white_button.grid(column=1, row=0, sticky='ew')
         self.sepia_button.grid(column=2, row=0, sticky='ew')
@@ -69,7 +68,7 @@ class FilterFrame(Toplevel):
         self.HDR_button.grid(column=0, row=4, sticky='ew')
         self.Summer_button.grid(column=1, row=4, sticky='ew')
         self.Winter_button.grid(column=2, row=4, sticky='ew')
-        self.oldtime_button.grid(column=1,row=5,sticky='ew')
+        self.oldtime_button.grid(column=1, row=5, sticky='ew')
         self.apply_button.grid(column=0, row=6, sticky='ew')
         self.cancel_button.grid(column=1, row=6, sticky='ew')
 
@@ -77,8 +76,6 @@ class FilterFrame(Toplevel):
         spline = UnivariateSpline(x, y)
         return spline(range(256))
 
-    def dodge(self, x, y):
-        return cv2.divide(x, 255 - y, scale=247)
 
     def negative_button_released(self, event):
         self.negative()
@@ -144,6 +141,7 @@ class FilterFrame(Toplevel):
         self.Winter()
         self.show_image()
 
+    # lưu
     def apply_button_released(self, event):
         self.master.processed_image = self.filtered_image
         self.show_image()
@@ -211,18 +209,20 @@ class FilterFrame(Toplevel):
     def oldtime(self):
         img_sepia = np.array(self.original_image, dtype=np.float64)  # converting to float to prevent loss
         img_sepia = cv2.transform(img_sepia, np.matrix([[0.272, 0.534, 0.131],
-                                                                            [0.349, 0.686, 0.168],
-                                                                            [0.393, 0.769,
-                                                                             0.189]]))  # multipying image with special sepia matrix
+                                                        [0.349, 0.686, 0.168],
+                                                        [0.393, 0.769,
+                                                         0.189]]))  # multipying image with special sepia matrix
         img_sepia[np.where(img_sepia > 255)] = 255  # normalizing values greater than 255 to 255
         img_sepia = np.array(img_sepia, dtype=np.uint8)
-        self.filtered_image=img_sepia
+        self.filtered_image = img_sepia
+
     def pencil_sketch_grey(self):
         grey_img = cv2.cvtColor(self.original_image, cv2.COLOR_RGB2GRAY)
         image_invert = cv2.bitwise_not(grey_img)
-        img_smooth = cv2.GaussianBlur(image_invert, (21, 21), sigmaX=0, sigmaY=0)
+        img_smooth = cv2.GaussianBlur(image_invert, (21, 21), 0)
+        invert_smooth=cv2.bitwise_not(img_smooth)
 
-        sketch_image = self.dodge(grey_img, img_smooth)
+        sketch_image = cv2.divide(grey_img, invert_smooth,scale=256.0)
         self.filtered_image = sketch_image
 
     def pencil_sketch_col(self):

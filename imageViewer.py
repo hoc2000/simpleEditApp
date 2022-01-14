@@ -1,6 +1,7 @@
 from tkinter import Frame, Canvas, CENTER, ROUND
 from tkinter import *
 from PIL import Image, ImageTk
+import imutils
 import cv2.cv2 as cv2
 
 
@@ -8,7 +9,7 @@ class ImageViewer(Frame):
 
     def __init__(self, master=None):
         # tao 1 frame
-        Frame.__init__(self, master=master, bg="gray24", width=800, height=800)
+        Frame.__init__(self, master=master, bg="white", width=900, height=900)
         # static attribute o day
         self.shown_image = None
         self.x = 0
@@ -21,7 +22,7 @@ class ImageViewer(Frame):
         self.rectangle_id = 0
         self.ratio = 0
         # định sẵn 1 canvas(ô vuông vùng để chỉnh sửa, ở giữa)
-        self.canvas = Canvas(self, bg="white", width=780, height=780)
+        self.canvas = Canvas(self, bg="gray24", width=870, height=870)
 
         self.canvas.place(relx=0.5, rely=0.5, anchor=CENTER)
 
@@ -68,6 +69,15 @@ class ImageViewer(Frame):
         self.canvas.bind("<ButtonRelease>", self.end_crop)
 
         self.master.is_crop_state = True
+
+    def activate_flip(self):
+        self.master.processed_image = cv2.flip(self.master.processed_image, 1)
+
+    def activate_rotate_minus_90(self):
+        self.master.processed_image = imutils.rotate(self.master.processed_image, 90)
+
+    def activate_rotate_90(self):
+        self.master.processed_image = imutils.rotate(self.master.processed_image, -90)
 
     def deactivate_draw(self):
         self.canvas.unbind("<ButtonPress>")

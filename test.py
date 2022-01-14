@@ -2,11 +2,15 @@ import cv2.cv2 as cv2
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
+
 # Read the image
 image = cv2.imread('sample/shop.jpg')
 
 
 # greyscale filter
+
+
+
 def greyscale(img):
     greyscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return greyscale
@@ -92,6 +96,8 @@ def dodge(x,y):
 #beuriful sketch lmao
 image_invert=cv2.bitwise_not(greyscale(image))
 img_smooth= cv2.GaussianBlur(image_invert,(21,21),sigmaX=0,sigmaY=0)
+
+
 
 
 final_image =dodge(greyscale(image),img_smooth)
