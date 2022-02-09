@@ -1,5 +1,6 @@
 # from tkinter import Toplevel, Button, RIGHT
 from tkinter import *
+from PIL import Image, ImageTk
 import numpy as np
 import cv2.cv2 as cv2
 from scipy.interpolate import UnivariateSpline
@@ -8,7 +9,7 @@ from scipy.interpolate import UnivariateSpline
 class FilterFrame(Toplevel):
 
     def __init__(self, master=None):
-        Toplevel.__init__(self, master=master)
+        Toplevel.__init__(self, master=master, bg='#141414')
 
         self.original_image = self.master.processed_image
         self.filtered_image = None
@@ -20,16 +21,18 @@ class FilterFrame(Toplevel):
         self.emboss_button = Button(self, text="Emboss")
         self.gaussian_blur_button = Button(self, text="Gaussian Blur")
         self.median_blur_button = Button(self, text="Median Blur")
-        self.cartoonify_button = Button(self, text="hoạt hình hóa")
+        self.cartoonify_button = Button(self, text="Hoạt hình hóa")
         self.bright_button = Button(self, text="Sauna")
         self.darken_button = Button(self, text="Trauma")
         self.sharpen_button = Button(self, text="Sắc nét")
-        self.oldtime_button = Button(self, text="Cổ điển")
-        self.pencil1_button = Button(self, text="sketch xám")
-        self.pencil2_button = Button(self, text="sketch màu")
+        self.pencil1_button = Button(self, text="Sketch xám")
+        self.pencil2_button = Button(self, text="Sketch màu")
         self.HDR_button = Button(self, text="HDR")
         self.Summer_button = Button(self, text="Ấm áp")
         self.Winter_button = Button(self, text="Lạnh giá")
+        self.oldtime_button = Button(self, text="Cổ điển")
+        self.poster_button =Button(self,text="Poster style")
+        self.glitch_button =Button(self,text="Glitch")
         self.apply_button = Button(self, text="Apply")
         self.cancel_button = Button(self, text="Cancel")
         # BIND BUTTON
@@ -49,10 +52,12 @@ class FilterFrame(Toplevel):
         self.HDR_button.bind("<ButtonRelease>", self.HDR_button_released)
         self.Summer_button.bind("<ButtonRelease>", self.Summer_button_released)
         self.Winter_button.bind("<ButtonRelease>", self.Winter_button_released)
-
+        self.poster_button.bind("<ButtonRelease>", self.poster_button_released)
+        self.glitch_button.bind("<ButtonRelease>", self.glitch_button_realeased)
         self.apply_button.bind("<ButtonRelease>", self.apply_button_released)
         self.cancel_button.bind("<ButtonRelease>", self.cancel_button_released)
         # GUI VIEW
+
         self.negative_button.grid(column=0, row=0, sticky='ew')
         self.black_white_button.grid(column=1, row=0, sticky='ew')
         self.sepia_button.grid(column=2, row=0, sticky='ew')
@@ -68,14 +73,15 @@ class FilterFrame(Toplevel):
         self.HDR_button.grid(column=0, row=4, sticky='ew')
         self.Summer_button.grid(column=1, row=4, sticky='ew')
         self.Winter_button.grid(column=2, row=4, sticky='ew')
+        self.poster_button.grid(column=0,row=5,sticky ='ew')
         self.oldtime_button.grid(column=1, row=5, sticky='ew')
+        self.glitch_button.grid(column=2,row=5,sticky='ew')
         self.apply_button.grid(column=0, row=6, sticky='ew')
-        self.cancel_button.grid(column=1, row=6, sticky='ew')
+        self.cancel_button.grid(column=2, row=6, sticky='ew')
 
     def LookupTable(self, x, y):
         spline = UnivariateSpline(x, y)
         return spline(range(256))
-
 
     def negative_button_released(self, event):
         self.negative()
@@ -141,6 +147,14 @@ class FilterFrame(Toplevel):
         self.Winter()
         self.show_image()
 
+    def poster_button_released(self,event):
+        self.poster()
+        self.show_image()
+
+    def glitch_button_realeased(self,event):
+        self.glitch_add()
+        self.show_image()
+
     # lưu
     def apply_button_released(self, event):
         self.master.processed_image = self.filtered_image
@@ -169,9 +183,11 @@ class FilterFrame(Toplevel):
         self.filtered_image = cv2.filter2D(self.original_image, -1, kernel)
 
     def emboss(self):
-        kernel = np.array([[0, -1, -1],
-                           [1, 0, -1],
-                           [1, 1, 0]])
+
+        kernel = np.array([[0,-1,-1],
+                            [1,0,-1],
+                            [1,1,0]])
+
 
         self.filtered_image = cv2.filter2D(self.original_image, -1, kernel)
 
@@ -186,10 +202,10 @@ class FilterFrame(Toplevel):
         self.filtered_image = cv2.bitwise_and(self.color, self.color, mask=self.edges)
 
     def gaussian_blur(self):
-        self.filtered_image = cv2.GaussianBlur(self.original_image, (21, 21), 0)
+        self.filtered_image = cv2.GaussianBlur(self.original_image, (11, 11), 0)
 
     def median_blur(self):
-        self.filtered_image = cv2.medianBlur(self.original_image, 31)
+        self.filtered_image = cv2.medianBlur(self.original_image, 7)
 
     ###################################################
     def bright(self):
@@ -220,9 +236,9 @@ class FilterFrame(Toplevel):
         grey_img = cv2.cvtColor(self.original_image, cv2.COLOR_RGB2GRAY)
         image_invert = cv2.bitwise_not(grey_img)
         img_smooth = cv2.GaussianBlur(image_invert, (21, 21), 0)
-        invert_smooth=cv2.bitwise_not(img_smooth)
+        invert_smooth = cv2.bitwise_not(img_smooth)
 
-        sketch_image = cv2.divide(grey_img, invert_smooth,scale=256.0)
+        sketch_image = cv2.divide(grey_img, invert_smooth, scale=256.0)
         self.filtered_image = sketch_image
 
     def pencil_sketch_col(self):
@@ -248,6 +264,41 @@ class FilterFrame(Toplevel):
         blue_channel = cv2.LUT(blue_channel, increaseLookupTable).astype(np.uint8)
         self.filtered_image = cv2.merge((blue_channel, green_channel, red_channel))
 
+    def poster(self):
+        image = self.original_image
+
+        def ColourQuantization(img, K=9):
+            Z = img.reshape((-1, 3))
+            Z = np.float32(Z)
+            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.001)
+            compactness, label, center = cv2.kmeans(Z, K, None, criteria, 1, cv2.KMEANS_RANDOM_CENTERS)
+            center = np.uint8(center)
+            res = center[label.flatten()]
+            res2 = res.reshape((img.shape))
+            return res2
+
+        def Countours(img):
+            contoured_image = img
+            gray = cv2.cvtColor(contoured_image, cv2.COLOR_BGR2GRAY)
+            edged = cv2.Canny(gray, 200, 200)
+            contours, hierarchy = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2:]
+            cv2.drawContours(contoured_image, contours, contourIdx=-1, color=6, thickness=1)
+            return contoured_image
+
+        coloured = ColourQuantization(image)
+        contoured = Countours(coloured)
+        self.filtered_image = contoured
+
+    def glitch_add(self):
+
+        foreg = cv2.imread("sample/glitch.jpg")
+        width = int(self.original_image.shape[1])
+        height = int(self.original_image.shape[0])
+        dim = (width, height)
+        fg = cv2.resize(foreg, dim)
+        blend = cv2.addWeighted(self.original_image, 0.8, fg, 0.6, 0.0)
+
+        self.filtered_image=blend
     ####################################################################
 
     def close(self):

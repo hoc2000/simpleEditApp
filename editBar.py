@@ -26,14 +26,15 @@ class EditBar(Frame):
         self.snapb = PhotoImage(file='icon/SNAPCHHAT.png')
         self.quitb = PhotoImage(file='icon/QUIT.png')
 
+
         self.new_button = Button(self, bg="white", image=self.openb, width=70, borderwidth=0)
         self.label = Label(self, bg="white", text="open").grid(column=0, row=1, sticky='ew')
 
         self.save_as_button = Button(self, bg="white", image=self.saveasb, width=70, borderwidth=0)
-        self.label = Label(self, bg="white", text="open").grid(column=1, row=1, sticky='ew')
+        self.label = Label(self, bg="white", text="save").grid(column=1, row=1, sticky='ew')
 
         self.draw_button = Button(self, bg="white", image=self.drawb, width=70, borderwidth=0)
-        self.label = Label(self, bg="white", text="save").grid(column=2, row=1, sticky='ew')
+        self.label = Label(self, bg="white", text="draw").grid(column=2, row=1, sticky='ew')
 
         self.crop_button = Button(self, bg="white", image=self.cropb, width=70, borderwidth=0)
         self.label = Label(self, bg="white", text="crop").grid(column=3, row=1, sticky='ew')

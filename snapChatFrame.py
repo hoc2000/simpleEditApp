@@ -95,10 +95,10 @@ class SnapChatFrame(Toplevel):
             left = (landmarks.part(31).x, landmarks.part(31).y)
             right = (landmarks.part(35).x, landmarks.part(35).y)
 
-            # tính độ dài
+
             width = int(hypot(left[0] - right[0],
                               left[1] - right[1]) * 7)
-            # tính hệ số cho height bằng cách lấy độ dài ảnh chia cho width
+
             height = int(width * 1.4)
 
             top_left = (int(center[0] - width / 2),

@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Label, Scale, Button, HORIZONTAL, RIGHT
+from tkinter import Toplevel, Label, Scale, Button, HORIZONTAL, RIGHT, PhotoImage
 import cv2.cv2 as cv2
 
 
@@ -6,6 +6,7 @@ class AdjustFrame(Toplevel):
 
     def __init__(self, master=None):
         Toplevel.__init__(self, master=master)
+        self.openb = PhotoImage(file='icon/OPEN.png')
         # tao thanh dieu chinh
         self.brightness_value = 0
         self.previous_brightness_value = 0
@@ -17,13 +18,13 @@ class AdjustFrame(Toplevel):
         self.brightness_scale = Scale(self, from_=0, to_=2, length=250, resolution=0.1,
                                       orient=HORIZONTAL)
         self.r_label = Label(self, text="R")
-        self.r_scale = Scale(self, from_=-100, to_=100, length=250, resolution=1,
+        self.r_scale = Scale(self, from_=-100, to_=100,bg="red", length=250, resolution=1,
                              orient=HORIZONTAL)
         self.g_label = Label(self, text="G")
-        self.g_scale = Scale(self, from_=-100, to_=100, length=250, resolution=1,
+        self.g_scale = Scale(self, from_=-100, to_=100,bg="green", length=250, resolution=1,
                              orient=HORIZONTAL)
         self.b_label = Label(self, text="B")
-        self.b_scale = Scale(self, from_=-100, to_=100, length=250, resolution=1,
+        self.b_scale = Scale(self, from_=-100, to_=100,bg="blue", length=250, resolution=1,
                              orient=HORIZONTAL)
         self.apply_button = Button(self, text="Apply")
         self.preview_button = Button(self, text="Preview")
