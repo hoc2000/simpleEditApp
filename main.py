@@ -21,11 +21,13 @@ class Main(tk.Tk):
         self.title("Hoc_editor")
         self.configure(bg='white')
 
+        self.color = None
 
 
         self.filter_frame = None
         self.adjust_frame = None
         self.snapchat_frame =None
+        self.draw_frame =None
 
 
         self.editbar = EditBar(master=self)

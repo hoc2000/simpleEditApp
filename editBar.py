@@ -5,6 +5,7 @@ from tkinter import filedialog
 from filterFrame import FilterFrame
 from adjustFrame import AdjustFrame
 from snapChatFrame import SnapChatFrame
+from draw_option import Draw
 import cv2.cv2 as cv2
 
 
@@ -148,8 +149,11 @@ class EditBar(Frame):
                     self.master.image_viewer.deactivate_crop()
                 if self.master.is_draw_state:
                     self.master.image_viewer.deactivate_draw()
-                else:
-                    self.master.image_viewer.activate_draw()
+
+                self.master.draw_frame = Draw(master=self.master)
+                self.master.draw_frame.grab_set()
+                # else:
+                #     self.master.image_viewer.activate_draw()
 
     def crop_button_released(self, event):
         if self.winfo_containing(event.x_root, event.y_root) == self.crop_button:

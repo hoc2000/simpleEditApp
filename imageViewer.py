@@ -3,7 +3,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 import imutils
 import cv2.cv2 as cv2
-
+import draw_option
 
 class ImageViewer(Frame):
 
@@ -21,6 +21,7 @@ class ImageViewer(Frame):
         self.draw_ids = list()
         self.rectangle_id = 0
         self.ratio = 0
+        self.maincolor=None
         # định sẵn 1 canvas(ô vuông vùng để chỉnh sửa, ở giữa)
         self.canvas = Canvas(self, bg="gray24", width=870, height=870)
 
@@ -98,7 +99,7 @@ class ImageViewer(Frame):
 
     def draw(self, event):
         self.draw_ids.append(self.canvas.create_line(self.x, self.y, event.x, event.y, width=2,
-                                                     fill="red", capstyle=ROUND, smooth=True))
+                                                     fill=self.maincolor, capstyle=ROUND, smooth=True))
 
         cv2.line(self.master.processed_image, (int(self.x * self.ratio), int(self.y * self.ratio)),
                  (int(event.x * self.ratio), int(event.y * self.ratio)),
