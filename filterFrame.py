@@ -9,75 +9,59 @@ from scipy.interpolate import UnivariateSpline
 class FilterFrame(Toplevel):
 
     def __init__(self, master=None):
-        Toplevel.__init__(self, master=master, bg='#141414')
+        Toplevel.__init__(self,width=300,height=800, master=master, bg='#141414')
 
         self.original_image = self.master.processed_image
         self.filtered_image = None
         self.title("edit filter")
 
-        self.negative_button = Button(self, text="Negative")
-        self.black_white_button = Button(self, text="Black White")
-        self.sepia_button = Button(self, text="Sepia")
-        self.emboss_button = Button(self, text="Emboss")
-        self.gaussian_blur_button = Button(self, text="Gaussian Blur")
-        self.median_blur_button = Button(self, text="Median Blur")
-        self.cartoonify_button = Button(self, text="Hoạt hình hóa")
-        self.bright_button = Button(self, text="Sauna")
-        self.darken_button = Button(self, text="Trauma")
-        self.sharpen_button = Button(self, text="Sắc nét")
-        self.pencil1_button = Button(self, text="Sketch xám")
-        self.pencil2_button = Button(self, text="Sketch màu")
-        self.HDR_button = Button(self, text="HDR")
-        self.Summer_button = Button(self, text="Ấm áp")
-        self.Winter_button = Button(self, text="Lạnh giá")
-        self.oldtime_button = Button(self, text="Cổ điển")
-        self.poster_button =Button(self,text="Poster style")
-        self.glitch_button =Button(self,text="Glitch")
-        self.apply_button = Button(self, text="Apply")
-        self.cancel_button = Button(self, text="Cancel")
-        # BIND BUTTON
-        self.negative_button.bind("<ButtonRelease>", self.negative_button_released)
-        self.black_white_button.bind("<ButtonRelease>", self.black_white_released)
-        self.sepia_button.bind("<ButtonRelease>", self.sepia_button_released)
-        self.emboss_button.bind("<ButtonRelease>", self.emboss_button_released)
-        self.gaussian_blur_button.bind("<ButtonRelease>", self.gaussian_blur_button_released)
-        self.median_blur_button.bind("<ButtonRelease>", self.median_blur_button_released)
-        self.cartoonify_button.bind("<ButtonRelease>", self.cartoonify_button_released)
-        self.bright_button.bind("<ButtonRelease>", self.bright_button_released)
-        self.darken_button.bind("<ButtonRelease>", self.darken_button_released)
-        self.sharpen_button.bind("<ButtonRelease>", self.sharpen_button_released)
-        self.oldtime_button.bind("<ButtonRelease>", self.oldtime_button_released)
-        self.pencil1_button.bind("<ButtonRelease>", self.pencil_gray_button_released)
-        self.pencil2_button.bind("<ButtonRelease>", self.pencil_colour_button_released)
-        self.HDR_button.bind("<ButtonRelease>", self.HDR_button_released)
-        self.Summer_button.bind("<ButtonRelease>", self.Summer_button_released)
-        self.Winter_button.bind("<ButtonRelease>", self.Winter_button_released)
-        self.poster_button.bind("<ButtonRelease>", self.poster_button_released)
-        self.glitch_button.bind("<ButtonRelease>", self.glitch_button_realeased)
-        self.apply_button.bind("<ButtonRelease>", self.apply_button_released)
-        self.cancel_button.bind("<ButtonRelease>", self.cancel_button_released)
-        # GUI VIEW
+        def ani(x, y, text, bcolor, fcolor, event):
+            def on_enter(e):
+                mybutton['background'] = bcolor
+                mybutton['foreground'] = fcolor
 
-        self.negative_button.grid(column=0, row=0, sticky='ew')
-        self.black_white_button.grid(column=1, row=0, sticky='ew')
-        self.sepia_button.grid(column=2, row=0, sticky='ew')
-        self.emboss_button.grid(column=0, row=1, sticky='ew')
-        self.gaussian_blur_button.grid(column=1, row=1, sticky='ew')
-        self.median_blur_button.grid(column=2, row=1, sticky='ew')
-        self.cartoonify_button.grid(column=0, row=2, sticky='ew')
-        self.bright_button.grid(column=1, row=2, sticky='ew')
-        self.darken_button.grid(column=2, row=2, sticky='ew')
-        self.sharpen_button.grid(column=0, row=3, sticky='ew')
-        self.pencil1_button.grid(column=1, row=3, sticky='ew')
-        self.pencil2_button.grid(column=2, row=3, sticky='ew')
-        self.HDR_button.grid(column=0, row=4, sticky='ew')
-        self.Summer_button.grid(column=1, row=4, sticky='ew')
-        self.Winter_button.grid(column=2, row=4, sticky='ew')
-        self.poster_button.grid(column=0,row=5,sticky ='ew')
-        self.oldtime_button.grid(column=1, row=5, sticky='ew')
-        self.glitch_button.grid(column=2,row=5,sticky='ew')
-        self.apply_button.grid(column=0, row=6, sticky='ew')
-        self.cancel_button.grid(column=2, row=6, sticky='ew')
+            def on_leave(e):
+                mybutton['background'] = fcolor
+                mybutton['foreground'] = bcolor
+
+            mybutton = Button(self, width=42, height=2, text=text,
+                              fg=bcolor,
+                              bg=fcolor,
+                              border=0,
+                              activeforeground=fcolor,
+                              activebackground=bcolor,
+                              command=0, )
+
+            mybutton.bind("<Enter>", on_enter)
+            mybutton.bind("<Leave>", on_leave)
+            mybutton.bind("<ButtonRelease>", event)
+            mybutton.grid(column=x, row=y, sticky='ew')
+
+
+
+        ani(0, 0, "NEGATIVE", '#ffcc66', '#141414', self.negative_button_released)
+        ani(1, 0, "BLACK & WHITE", '#ffcc66', '#141414', self.black_white_released)
+        ani(0, 1, "SEPIA", '#ffcc66', '#141414', self.sepia_button_released)
+        ani(1, 1, "EMBOSS", '#ffcc66', '#141414', self.emboss_button_released)
+        ani(0, 2, "GAUSSIAN BLUR", '#ffcc66', '#141414', self.gaussian_blur_button_released)
+        ani(1, 2, "MEDIAN BLUR", '#ffcc66', '#141414', self.median_blur_button_released)
+        ani(0, 3, "HOẠT HÌNH HÓA", '#ffcc66', '#141414', self.cartoonify_button_released)
+        ani(1, 3, "SAUNA", '#ffcc66', '#141414', self.bright_button_released)
+        ani(0, 4, "DARK", '#ffcc66', '#141414', self.darken_button_released)
+        ani(1, 4, "SKETCH XÁM", '#ffcc66', '#141414', self.pencil_gray_button_released)
+        ani(0, 5, "SKETCH MÀU", '#ffcc66', '#141414', self.pencil_colour_button_released)
+        ani(1, 5, "HDR", '#ffcc66', '#141414', self.HDR_button_released)
+        ani(0, 6, "SUMMER", '#ffcc66', '#141414', self.Summer_button_released)
+        ani(1, 6, "WINTER", '#ffcc66', '#141414', self.Winter_button_released)
+        ani(0, 7, "OLD TIME", '#ffcc66', '#141414', self.oldtime_button_released)
+        ani(1, 7, "POSTER", '#ffcc66', '#141414', self.poster_button_released)
+        ani(0, 8, "GLITCH", '#ffcc66', '#141414', self.glitch_button_realeased)
+        ani(1, 8, "INSTANT", '#ffcc66', '#141414', self.instant_button_realeased)
+        ani(0, 9, "PROCESS", '#ffcc66', '#141414', self.process_button_realeased)
+        ani(1, 9, "ABSTRACT", '#ffcc66', '#141414', self.abstract_button_realeased)
+        ani(0, 10, "apply", '#25dae9', '#141414', self.apply_button_released)
+        ani(1,10, "cancel", '#25dae9', '#141414', self.cancel_button_released)
+
 
     def LookupTable(self, x, y):
         spline = UnivariateSpline(x, y)
@@ -147,12 +131,24 @@ class FilterFrame(Toplevel):
         self.Winter()
         self.show_image()
 
-    def poster_button_released(self,event):
+    def poster_button_released(self, event):
         self.poster()
         self.show_image()
 
-    def glitch_button_realeased(self,event):
+    def glitch_button_realeased(self, event):
         self.glitch_add()
+        self.show_image()
+
+    def instant_button_realeased(self, event):
+        self.Instant()
+        self.show_image()
+
+    def process_button_realeased(self, event):
+        self.Process()
+        self.show_image()
+
+    def abstract_button_realeased(self, event):
+        self.Abstract_Art()
         self.show_image()
 
     # lưu
@@ -183,11 +179,9 @@ class FilterFrame(Toplevel):
         self.filtered_image = cv2.filter2D(self.original_image, -1, kernel)
 
     def emboss(self):
-
-        kernel = np.array([[0,-1,-1],
-                            [1,0,-1],
-                            [1,1,0]])
-
+        kernel = np.array([[0, -1, -1],
+                           [1, 0, -1],
+                           [1, 1, 0]])
 
         self.filtered_image = cv2.filter2D(self.original_image, -1, kernel)
 
@@ -290,7 +284,6 @@ class FilterFrame(Toplevel):
         self.filtered_image = contoured
 
     def glitch_add(self):
-
         foreg = cv2.imread("sample/glitch.jpg")
         width = int(self.original_image.shape[1])
         height = int(self.original_image.shape[0])
@@ -298,7 +291,70 @@ class FilterFrame(Toplevel):
         fg = cv2.resize(foreg, dim)
         blend = cv2.addWeighted(self.original_image, 0.8, fg, 0.6, 0.0)
 
-        self.filtered_image=blend
+        self.filtered_image = blend
+
+    def Instant(self):
+        red_img = np.full((682, 512, 3), (0, 0, 255), np.uint8)
+        blue_img = np.full((682, 512, 3), (255, 0, 0), np.uint8)
+        imgheight = self.original_image.shape[0]
+        imgwidth = self.original_image.shape[1]
+
+        # Cropping an image
+        cropped_image = self.original_image[80:imgheight - 80, 80:imgwidth - 80]
+
+        # Display cropped image
+        dim = (imgwidth, imgheight)
+        crop_resize = cv2.resize(cropped_image, dim)
+        red = cv2.resize(red_img, dim)
+        blue = cv2.resize(blue_img, dim)
+        fused_red = cv2.addWeighted(crop_resize, 0.2, red, 0.8, 0.0)
+        fused_img = cv2.addWeighted(self.original_image, 0.8, fused_red, 0.1, 0.0)
+        final_img = cv2.addWeighted(fused_img, 0.8, blue, 0.2, 0.0)
+        self.filtered_image = final_img
+
+    def Process(self):
+        red_img = np.full((682, 512, 3), (0, 0, 123), np.uint8)
+        blue_img = np.full((682, 512, 3), (155, 0, 0), np.uint8)
+        imgheight = self.original_image.shape[0]
+        imgwidth = self.original_image.shape[1]
+
+        # Cropping an image
+        cropped_image = self.original_image[80:imgheight - 80, 80:imgwidth - 80]
+        cropped_image2 = self.original_image[90:imgheight - 90, 90:imgwidth - 90]
+        # Display cropped image
+        dim = (imgwidth, imgheight)
+        crop_resize = cv2.resize(cropped_image, dim)
+        red = cv2.resize(red_img, dim)
+        blue = cv2.resize(blue_img, dim)
+        fused_red = cv2.addWeighted(crop_resize, 0.2, red, 0.8, 0.0)
+        fused_img = cv2.addWeighted(self.original_image, 0.8, fused_red, 0.1, 0.0)
+        final_img = cv2.addWeighted(fused_img, 0.8, blue, 0.3, 0.0)
+        self.img_bright = cv2.convertScaleAbs(final_img, beta=60)
+        self.filtered_image = self.img_bright
+    def Abstract_Art(self):
+         self.poster()
+         processed_img=self.filtered_image
+         self.grey_image = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
+         self.blur_image = cv2.medianBlur(self.grey_image, 7)
+         self.edges = cv2.adaptiveThreshold(self.blur_image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 2)
+         # cv2.imshow('edges', edges)
+         # cv2.waitKey()
+         # cartoonize
+         self.color = cv2.bilateralFilter(processed_img, 9, 250, 250)
+         self.filtered_image = cv2.bitwise_and(self.color, self.color, mask=self.edges)
+
+         img_warm=self.filtered_image
+
+         increaseLookupTable = self.LookupTable([0, 64, 128, 256], [0, 80, 160, 256])
+         decreaseLookupTable = self.LookupTable([0, 64, 128, 256], [0, 50, 100, 256])
+         blue_channel, green_channel, red_channel = cv2.split(img_warm)
+         red_channel = cv2.LUT(red_channel, increaseLookupTable).astype(np.uint8)
+         blue_channel = cv2.LUT(blue_channel, decreaseLookupTable).astype(np.uint8)
+         self.filtered_image = cv2.merge((blue_channel, green_channel, red_channel))
+
+
+
+
     ####################################################################
 
     def close(self):

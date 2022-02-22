@@ -21,10 +21,12 @@ class EditBar(Frame):
         self.ninentyb = PhotoImage(file='icon/ROTATE90.png')
         self.minnusninetyb = PhotoImage(file='icon/ROTATE-90.png')
         self.filterb = PhotoImage(file='icon/FILTER.png')
+        self.magicb =PhotoImage(file='icon/MAGIC.png')
         self.adjustb = PhotoImage(file='icon/ADJUST.png')
         self.clearb = PhotoImage(file='icon/CLEAR.png')
         self.snapb = PhotoImage(file='icon/SNAPCHHAT.png')
         self.quitb = PhotoImage(file='icon/QUIT.png')
+
 
 
         self.new_button = Button(self, bg="white", image=self.openb, width=70, borderwidth=0)
@@ -48,8 +50,8 @@ class EditBar(Frame):
         self.minus_ninety_rotate_button = Button(self, bg="white", image=self.minnusninetyb, width=70, borderwidth=0)
         self.label = Label(self, bg="white", text="rotate -90").grid(column=6, row=1, sticky='ew')
 
-        self.filter_button = Button(self, bg="white", image=self.filterb, width=70, borderwidth=0)
-        self.label = Label(self, bg="white", text="filter").grid(column=7, row=1, sticky='ew')
+        self.filter_button = Button(self, bg="white", image=self.magicb, width=70, borderwidth=0)
+        self.label = Label(self, bg="white", text="magic").grid(column=7, row=1, sticky='ew')
 
         self.adjust_button = Button(self, bg="white", image=self.adjustb, width=70, borderwidth=0)
         self.label = Label(self, bg="white", text="adjust").grid(column=8, row=1, sticky='ew')

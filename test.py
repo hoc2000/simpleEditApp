@@ -103,13 +103,23 @@ def Winter(img):
 
 
 def Instant(img):
-    red_img = np.full((682, 512, 3), (110, 120, 0), np.uint8)
-    width = int(img.shape[1])
-    height = int(img.shape[0])
-    dim = (width, height)
+    red_img = np.full((682, 512, 3), (0, 0, 123), np.uint8)
+    blue_img=np.full((682, 512, 3), (155, 0, 0), np.uint8)
+    imgheight = img.shape[0]
+    imgwidth = img.shape[1]
+
+    # Cropping an image
+    cropped_image = img[80:imgheight - 80, 80:imgwidth - 80]
+    cropped_image2 = img[90:imgheight - 90, 90:imgwidth - 90]
+    # Display cropped image
+    dim = (imgwidth, imgheight)
+    crop_resize = cv2.resize(cropped_image, dim)
     red = cv2.resize(red_img, dim)
-    fused_img = cv2.addWeighted(img, 0.8, red, 0.2, 0.0)
-    return fused_img
+    blue=cv2.resize(blue_img,dim)
+    fused_red = cv2.addWeighted(crop_resize, 0.2, red, 0.8, 0.0)
+    fused_img=cv2.addWeighted(img,0.8,fused_red,0.1,0.0)
+    final_img=cv2.addWeighted(fused_img,0.8,blue,0.3,0.0)
+    return final_img
 
 
 def dodge(x, y):
@@ -124,7 +134,7 @@ def glitch_add(img):
     blend = cv2.addWeighted(img, 0.8, fg, 0.6, 0.0)
     crop_img = img[30:4, (width-4):(height-4)]
     return blend
-photo =glitch_add(image)
+photo =Instant(image)
 
 cv2.imshow("test",photo)
 cv2.waitKey()

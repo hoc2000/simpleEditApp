@@ -5,7 +5,7 @@ import cv2.cv2 as cv2
 class AdjustFrame(Toplevel):
 
     def __init__(self, master=None):
-        Toplevel.__init__(self, master=master)
+        Toplevel.__init__(self, master=master )
         self.openb = PhotoImage(file='icon/OPEN.png')
         # tao thanh dieu chinh
         self.brightness_value = 0
@@ -49,6 +49,7 @@ class AdjustFrame(Toplevel):
         self.apply_button.pack()
 
     def apply_button_released(self, event):
+
         self.master.processed_image = self.processing_image
         self.close()
 
